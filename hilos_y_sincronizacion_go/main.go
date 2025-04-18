@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Contantes de máximo de usuarios (Empleados) que pueden usar la impresora a la vez y el semáforo
+// Máximo de usuarios que pueden usar la impresora a la vez
 const maxUsuarios = 1
 
 var semaforo = make(chan struct{}, maxUsuarios)
@@ -26,8 +26,10 @@ func (i *Impresora) imprimir(empleado Empleado) {
 	//Solicitar acceso a la impresora
 	semaforo <- struct{}{}
 	fmt.Printf("\n%s está imprimiendo %s.\n", empleado.Nombre, empleado.Documento)
+	//Simulación de uso de la impresora
 	time.Sleep(5 * time.Second)
 	fmt.Printf("%s terminó de imprimir su documento.\n", empleado.Nombre)
+	//Remover al empleado que ya usó la impresora
 	i.removerEmpleado(empleado)
 	<-semaforo
 }
@@ -46,6 +48,7 @@ func (i *Impresora) removerEmpleado(empleado Empleado) {
 }
 
 func (i *Impresora) gestionarImpresiones() {
+	//Utilización del semáforo para gestionar el flujo de los usuarios que van a imprimir sus documentos
 	var wg sync.WaitGroup
 	for _, empleado := range i.Empleados {
 		wg.Add(1)
