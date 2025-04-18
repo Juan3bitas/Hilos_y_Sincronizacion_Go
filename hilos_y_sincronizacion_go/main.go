@@ -6,18 +6,18 @@ import (
 	"time"
 )
 
-// Máximo de usuarios que pueden usar la impresora a la vez
+//Máximo de usuarios que pueden usar la impresora a la vez
 const maxUsuarios = 1
 
 var semaforo = make(chan struct{}, maxUsuarios)
 
-// Estructura de Empleado
+//Estructura de Empleado
 type Empleado struct {
 	Nombre    string
 	Documento string
 }
 
-// Estructura de Impresora
+//Estructura de Impresora
 type Impresora struct {
 	Empleados []Empleado
 }
